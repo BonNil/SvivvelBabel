@@ -29,9 +29,6 @@ router.put("/word/new", function(req, res) {
 	});
 });
 
-<<<<<<< HEAD
-router.delete("/word/delete/:_id", function(req, res){
-=======
 
 router.get("/word/edit", function(req, res){
 	
@@ -55,8 +52,8 @@ router.get("/word/edit", function(req, res){
 });
 
 
-router.get("/word/delete/:_id", function(req, res){
->>>>>>> added /word/random and /word/validate(untested)
+router.delete("/word/delete/:_id", function(req, res){
+
 	Words.remove({"_id" : req.params._id}, function(err){
 		if(err){
 			res.status(400).send("Bas request");
