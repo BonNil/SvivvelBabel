@@ -20,12 +20,23 @@
 			}
 
 			$scope.updateWord = function(word){
-				$http.post("/word/list")
+				$http.post("/word/edit", word)
 					.success(function(data){
-						
+						$scope.selectedWord = undefined;
 					})
 					.error(function(data){
 						console.log("Failed to update word", word, data);
+					})
+			}
+
+			$scope.removeWord = function(word){
+				$http.delete("/word/delete/" + word._id)
+					.success(function(){
+						$scope.selectedWord = undefined;
+						$scope.loadWordList();
+					})
+					.error(function(){
+
 					})
 			}
 
