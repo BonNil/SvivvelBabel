@@ -2,6 +2,37 @@
 <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
 <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/bower_components/angular/angular.js"></script>
+
+<script>
+	angular.module("createWordApp", [])
+		.controller("createWordCtrl", function($scope, $http){
+			$scope.word = {
+				word : undefined,
+				translations : {
+					sv : undefined,
+					dk : undefined
+				}
+			}
+
+			$scope.validWord = function () {
+				return  $scope.word.word && 
+					$scope.word.translations.sv &&
+					$scope.word.translations.dk;
+			}
+
+			$scope.createWord = function(){
+				$http.put("/word/new", $scope.word)
+					.success(function(data){
+						console.log("Success", data);
+					})
+					.error(function(data){
+						console.log("Error", data);
+					})
+			}
+		})
+
+</script>
 
 <style>
 	p {
@@ -9,33 +40,35 @@
 	}
 </style>
 
-<div class="jumbotron">
+<div data-ng-app="createWordApp" data-ng-controller="createWordCtrl">
+	<div class="jumbotron">
+		<div class="container">
+			<h1>New word</h1>
+		</div>
+	</div>
+
 	<div class="container">
-		<h1>New word</h1>
-	</div>
-</div>
+		<div class="row">
+			<div class="col-md-4">
+				<h2>Create a new word</h2>
+				<p>Enter a new word in english.</p>
+				<input data-ng-model="word.word" class="form-control" type="text" />
+				<p>Optionally add a description for the word.</p>
+				<textarea style="resize:vertical;" class="form-control" type="text"></textarea>
+			</div>
+			<div class="col-md-4">
+				<h2>Translations</h2>
+				<p>Swedish translation.</p>
+				<input data-ng-model="word.translations.sv" class="form-control" type="text" />
+				<p>German translation.</p>
+				<input data-ng-model="word.translations.dk" class="form-control" type="text" />
+			</div>
+			<div class="col-md-4">
+				<h2>Done?</h2>
+				<p>Create the word with the given translatios.</p>
+				<div data-ng-disabled="!validWord()" data-ng-click="createWord()" class="btn btn-primary">Create word</div>
+			</div>
+		</div>
 
-<div class="container">
-	<div class="row">
-		<div class="col-md-4">
-			<h2>Create a new word</h2>
-			<p>Enter a new word in english.</p>
-			<input  class="form-control" type="text" />
-			<p>Optionally add a description for the word.</p>
-			<textarea style="resize:vertical;" class="form-control" type="text"></textarea>
-		</div>
-		<div class="col-md-4">
-			<h2>Translations</h2>
-			<p>Swedish translation.</p>
-			<input class="form-control" type="text" />
-			<p>German translation.</p>
-			<input class="form-control" type="text" />
-		</div>
-		<div class="col-md-4">
-			<h2>Done?</h2>
-			<p>Create the word with the given translatios.</p>
-			<div class="btn btn-primary">Create word</div>
-		</div>
 	</div>
-
 </div>
