@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 
 <html>
-<body>
 
 	<style>
 	input[type="text"]
@@ -9,31 +8,41 @@
 		font-size:24px;
 		border-style: solid;
 		border-width: 5px;
-		border-color: #FF6666;
+		border-color: #000000;
 		-webkit-border-radius: 4px;
 		-moz-border-radius: 4px;
 		border-radius: 4px;
 
 	}
+	body{
+		background-image: url("http://i57.tinypic.com/2cn8obd.png");
+		background-repeat: repeat;
+	}
+
 	</style>
+
+<body>
+
+
 
 	<div style="
 	margin-left: auto;
 	margin-right: auto;
+	margin-top: 50px;
 	border-style: solid;
-	border-width: 30px;
-	border-color: #5C5C8A;
-	-webkit-border-radius: 45px;
-	-moz-border-radius: 45px;
-	border-radius: 45px;
-	background-color:#ADD6FF;
+	border-width: 20px;
+	border-color: #000000;
+	-webkit-border-radius: 150px;
+	-moz-border-radius: 150px;
+	border-radius: 150px;
+	background-color:#668AB3;
 	width:70%;
 	height:500px;">
 
 
 	<form style="
-	margin-top: 450px;
-	margin-left: 325px;
+	margin-top: 463px;
+	margin-left: 310px;
 	">
 	<input
 	placeholder="What's the word?" 
@@ -43,7 +52,30 @@
 
 </div>
 
+<script src="bower_components/jquery/dist/jquery.js"></script>
 
+<script type="text/javascript">
+ console.log(jQuery);
+
+ var url = "http://api.wordnik.com:80/v4/words.json/randomWord?hasDictionaryDef=false&minCorpusCount=0&maxCorpusCount=-1&minDictionaryCount=1&maxDictionaryCount=-1&minLength=5&maxLength=-1&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5";
+
+ jQuery.get(url, function (data){
+  var word = data.word;
+  jQuery("#wordtotransalte").text(word);
+
+  var url = "https://www.googleapis.com/language/translate/v2?key=INSERT-YOUR-KEY&source=en&target=sv&q=" + word;
+  jQuery.get(url, function (data){
+   jQuery("#translatedword").text(data.word);
+
+  });
+ });
+
+
+</script>
+<div>
+ <div id="wordtotransalte">Loading....</div>
+ <div id="translatedword"></div>
+</div>
 
 
 </body>
