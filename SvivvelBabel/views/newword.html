@@ -11,14 +11,14 @@
 				word : undefined,
 				translations : {
 					sv : undefined,
-					dk : undefined
+					de : undefined
 				}
 			}
 
 			$scope.validWord = function () {
 				return  $scope.word.word && 
 					$scope.word.translations.sv &&
-					$scope.word.translations.dk;
+					$scope.word.translations.de;
 			}
 
 			$scope.createWord = function(){
@@ -61,7 +61,7 @@
 				<p>Swedish translation.</p>
 				<input data-ng-model="word.translations.sv" class="form-control" type="text" />
 				<p>German translation.</p>
-				<input data-ng-model="word.translations.dk" class="form-control" type="text" />
+				<input data-ng-model="word.translations.de" class="form-control" type="text" />
 			</div>
 			<div class="col-md-4">
 				<h2>Done?</h2>
