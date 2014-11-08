@@ -9,15 +9,9 @@ router.get('/', function(req, res) {
   	res.render('index', { title: 'Express' });
 });
 
-router.get("/word/new", function(req, res) {
+router.put("/word/new", function(req, res) {
 	console.log("ny bajspatte")
-	var word = new Words({
-		word : "Swivvelbabel",
-		translations : {
-			sv : "Svivvelbobbel",
-			de : "geschwivvelbübble"
-		}
-	});
+	var word = new Words(req.body);
 	word.save(function(err){
 		if(err){
 			console.log("Something went wrong", err);
