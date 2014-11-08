@@ -29,4 +29,8 @@ router.get("/word/list", function(req, res) {
 	console.log("bajspatte");
 });
 
+router.get('/newword', function(req, res) {
+  res.render('newword');
+});
+
 module.exports = router;

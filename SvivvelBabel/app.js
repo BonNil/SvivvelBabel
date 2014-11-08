@@ -13,6 +13,7 @@ var app = express();
 
 // view engine setup
 // ---------------------------------------------------
+app.use('/bower_components',  express.static(__dirname + '/bower_components'));
 app.set('views', path.join(__dirname, 'views'));
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
