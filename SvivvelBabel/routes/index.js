@@ -22,6 +22,17 @@ router.put("/word/new", function(req, res) {
 	});
 });
 
+router.get("/word/delete/:_id", function(req, res){
+	Words.remove({"_id" : req.params._id}, function(err){
+		if(err){
+			res.status(400).send("Bas request");
+		}else{
+			res.send("Success: Entity deleted");
+		}
+	});
+});
+
+
 router.get("/word/list", function(req, res) {
 	mongoose.model("words").find(function(err, words){
 		res.send(words);
