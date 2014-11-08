@@ -73,5 +73,10 @@ app.use(function(err, req, res, next) {
     });
 });
 
+app.use(function(err, req, res, next){
+  console.error("Cought an error.")
+  console.error(err.stack);
+  console.error(err);
+});
 
 module.exports = app;
