@@ -43,5 +43,8 @@ router.get("/word/list", function(req, res) {
 router.get('/newword', function(req, res) {
   res.render('newword');
 });
+router.get('/editword', function(req, res) {
+  res.render('editword');
+});
 
 module.exports = router;
