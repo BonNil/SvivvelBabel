@@ -57,6 +57,7 @@ router.post("/word/edit", function(req, res){
 		res.send("Failure: something went wrong, cannot edit");
 		console.log("else: Something wrong with req.body._id in router /word/edit");
 	}
+	next(err);
 });
 
 
