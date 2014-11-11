@@ -1,81 +1,87 @@
 <!DOCTYPE html>
+<script src="/bower_components/jquery/dist/jquery.js"></script>
+<link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
+<script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/bower_components/angular/angular.js"></script>
 
-<html>
 
-	<style>
-	input[type="text"]
-	{
-		font-size:24px;
-		border-style: solid;
-		border-width: 5px;
-		border-color: #000000;
-		-webkit-border-radius: 4px;
-		-moz-border-radius: 4px;
-		border-radius: 4px;
+<script>
+console.log(jQuery);
 
+var url = "http://api.wordnik.com:80/v4/words.json/randomWord?hasDictionaryDef=false&minCorpusCount=0&maxCorpusCount=-1&minDictionaryCount=1&maxDictionaryCount=-1&minLength=5&maxLength=-1&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5";
+
+jQuery.get(url, function (data){
+	var word = data.word;
+	jQuery("#wordtotransalte").text(word);
+
+	var url = "https://www.googleapis.com/language/translate/v2?key=INSERT-YOUR-KEY&source=en&target=sv&q=" + word;
+	jQuery.get(url, function (data){
+		jQuery("#translatedword").text(data.word);
+
+	});
+});
+
+angular.module("homePage", [])
+.controller("homePageCtrl", function($scope, $http){
+
+	$scope.redirectNewWord = function(){
+		res.render("newword")
+		console.log("redirectNewWord anropades");
+		$http.get("/newword", body)
+		.success(function(data){
+			console.log(data);
+
+		});
 	}
-	body{
-		background-image: url("http://i57.tinypic.com/2cn8obd.png");
-		background-repeat: repeat;
+
+	$scope.go = function(path){
+		console.log("BALLE");
+		window.location=path;
 	}
 
-	</style>
-
-<body>
+});
 
 
 
-	<div style="
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: 50px;
-	border-style: solid;
-	border-width: 20px;
-	border-color: #000000;
-	-webkit-border-radius: 150px;
-	-moz-border-radius: 150px;
-	border-radius: 150px;
-	background-color:#668AB3;
-	width:70%;
-	height:500px;">
-
-
-	<form style="
-	margin-top: 463px;
-	margin-left: 310px;
-	">
-	<input
-	placeholder="What's the word?" 
-	type="text" 
-	name="firstname"><br>
-</form>
-
-</div>
-
-<script src="bower_components/jquery/dist/jquery.js"></script>
-
-<script type="text/javascript">
- console.log(jQuery);
-
- var url = "http://api.wordnik.com:80/v4/words.json/randomWord?hasDictionaryDef=false&minCorpusCount=0&maxCorpusCount=-1&minDictionaryCount=1&maxDictionaryCount=-1&minLength=5&maxLength=-1&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5";
-
- jQuery.get(url, function (data){
-  var word = data.word;
-  jQuery("#wordtotransalte").text(word);
-
-  var url = "https://www.googleapis.com/language/translate/v2?key=INSERT-YOUR-KEY&source=en&target=sv&q=" + word;
-  jQuery.get(url, function (data){
-   jQuery("#translatedword").text(data.word);
-
-  });
- });
 
 
 </script>
-<div>
- <div id="wordtotransalte">Loading....</div>
- <div id="translatedword"></div>
-</div>
+
+<html>
+
+<style>
+
+div.autoW{
+	solid: #000;
+	width: auto;
+	height: 75px;
+	background-color: #99C2FF;
+}
+
+</style>
+
+
+<body>
+	<div data-ng-app="homePage" data-ng-controller="homePageCtrl">
+
+		<nav class="navbar navbar-inverse" style="margin-bottom: 0px" role="navigation">
+
+			<a class="navbar-brand" ng-click="go('/')">Home</a>
+			<a class="navbar-brand" ng-click="go('/newword')">Add Word</a>
+			<a class="navbar-brand" ng-click="go('/editword')">Edit Word</a>
+
+		</nav>
+		<div class="jumbotron" style="background-color: #99C2FF">
+			<div class="container">
+				<h1 style="margin-top: 0px"><big style="color: #FFFFFF">SvivvelBabel</big> 
+					<small>Language Translation Game</small>
+				</h1>
+			</div>
+		</div>
+
+
+
 
 
 </body>

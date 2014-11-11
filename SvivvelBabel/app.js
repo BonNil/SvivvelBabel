@@ -19,7 +19,7 @@ app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 // ---------------------------------------------------
 
-// setup up mongoose
+// set up mongoose
 // ---------------------------------------------------
 mongoose.connect("mongodb://root:root@ds063889.mongolab.com:63889/svivvelbabel");
 //----------------------------------------------------
@@ -72,6 +72,7 @@ app.use(function(err, req, res, next) {
         error: {}
     });
 });
+
 
 app.use(function(err, req, res, next){
   console.error("Cought an error.")

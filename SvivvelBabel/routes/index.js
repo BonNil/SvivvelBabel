@@ -7,7 +7,7 @@ var Words = require("mongoose").model("words");
 
 
 
-// route the routable routing routes
+// Route the routable routing routes
 // ----------------------------------------------
 
 /* GET home page. */
@@ -17,7 +17,7 @@ router.get('/', function(req, res) {
 
 
 router.put("/word/new", function(req, res) {
-	console.log("ny bajspatte")
+	console.log("/word/new was called")
 	var word = new Words(req.body);
 	word.save(function(err){
 		if(err){
@@ -30,24 +30,32 @@ router.put("/word/new", function(req, res) {
 });
 
 
-router.get("/word/edit", function(req, res){
-	
-	console.log("HÄR E JAG HÄR E JAG HÄR E JAG");
+router.post("/word/edit", function(req, res){
+
+	console.log("/word/edit was called");
 
 	if(req.body._id){
+		console.log("First if passed");
 		var id = req.body._id;
 		var updateData = req.body;
 		delete updateData._id;
-		console.log(req.body, nWord, updateData);
+		console.log(req.body, updateData);
 
 		// perform the edit
 		Words.update({"_id" : id}, updateData, function(err){
+			console.log("Här e jag");
 			if(err){
+				console.log("Error: line 48 index.js")
 				res.send("Failure: Failed to edit object: " + req.body);
+			}else{
+				console.log("Words.Update() in /word/edit SUCCESS");
 			}
+
 		})
+
 	} else {
 		res.send("Failure: something went wrong, cannot edit");
+		console.log("else: Something wrong with req.body._id in router /word/edit");
 	}
 });
 
@@ -56,7 +64,7 @@ router.delete("/word/delete/:_id", function(req, res){
 
 	Words.remove({"_id" : req.params._id}, function(err){
 		if(err){
-			res.status(400).send("Bas request");
+			res.status(400).send("Bad request");
 		}else{
 			res.send("Success: Entity deleted");
 		}
@@ -65,10 +73,11 @@ router.delete("/word/delete/:_id", function(req, res){
 
 
 router.get("/word/list", function(req, res) {
+	console.log("/word/list was called");
 	mongoose.model("words").find(function(err, words){
 		res.send(words);
 	});
-	console.log("bajspatte");
+
 });
 
 
@@ -89,30 +98,30 @@ router.get("/word/random", function(req, res){
 });
 
 
-router.get("/word/validate", function(req, res){
+router.post("/word/validate", function(req, res){
 	if(!req.body._id){
 		res.status(400).send("Invalid ID");
-		console.log("Invalid ID")
+		console.log("Invalid ID");
 	}
 	if(!req.body.lang){
 		res.status(400).send("Invalid language");
-		console.log("Invalid language")
+		console.log("Invalid language");
 	}
 	if(!req.body.guess){
 		res.status(400).send("Invalid guess");
-		console.log("Invalid guess")
+		console.log("Invalid guess");
 	}
 		Words.findOne({"_id" : req.body._id}, function(err, word){
 			if(word){
 				if(req.body.lang == "sv"){
-					if (req.body.guess == word.translation.sv){
+					if (req.body.guess == word.translations.sv){
 						res.send("CORRECT");
 					}else{
 						res.send("INCORRECT");
 					}
 				}
 				if(req.body.lang == "de"){
-					if (req.body.guess == word.translation.de){
+					if (req.body.guess == word.translations.de){
 						res.send("CORRECT");
 					}else{
 						res.send("INCORRECT");
@@ -134,7 +143,6 @@ router.get('/newword', function(req, res) {
 router.get('/editword', function(req, res) {
   res.render('editword');
 });
-
 // ----------------------------------------------
 
 

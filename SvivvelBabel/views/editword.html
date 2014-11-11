@@ -5,129 +5,140 @@
 <script src="/bower_components/angular/angular.js"></script>
 
 <script>
-	angular.module("editWordApp", [])
-		.controller("editWordCtrl", function($scope, $http){
-			
-			$scope.words = [];
-			$scope.loadWordList = function(){
-				$http.get("/word/list")
-					.success(function(data){
-						$scope.words = data;
-					})
-					.error(function(data){
-						console.log("Failed to list words", data);
-					});
-			}
+angular.module("editWordApp", [])
+.controller("editWordCtrl", function($scope, $http){
 
-			$scope.updateWord = function(word){
-				$http.post("/word/edit", word)
-					.success(function(data){
-						$scope.selectedWord = undefined;
-					})
-					.error(function(data){
-						console.log("Failed to update word", word, data);
-					})
-			}
+	$scope.words = [];
+	$scope.loadWordList = function(){
+		$http.get("/word/list").success(function(data){
+			$scope.words = data;
+		})
+		.error(function(data){
+			console.log("Failed to list words", data);
+		});
+	}
 
-			$scope.removeWord = function(word){
-				$http.delete("/word/delete/" + word._id)
-					.success(function(){
-						$scope.selectedWord = undefined;
-						$scope.loadWordList();
-					})
-					.error(function(){
+	$scope.updateWord = function(word){
+		$http.post("/word/edit", word).success(function(data){
+			console.log("Object successfully updated")
+			$scope.selectedWord = undefined;
+		})
+		.error(function(data){
+			console.log("Failed to update word", word, data);
+		})
+	}
 
-					})
-			}
-
+	$scope.removeWord = function(word){
+		$http.delete("/word/delete/" + word._id)
+		.success(function(){
+			$scope.selectedWord = undefined;
 			$scope.loadWordList();
 		})
+		.error(function(){
+
+		})
+	}
+
+		$scope.go = function(path){
+		console.log("go()-function used");
+		window.location=path;
+	}
+
+	$scope.loadWordList();
+})
 
 </script>
 
 <style>
-	p {
-		margin-top: 10px;
-	}
-	.row.header {
-		font-weight: bolder;
-		font-size: 24px;
-	}
-	.row.odd {
-		background-color: rgba(238, 238, 238, 0.37);
-	}
-	.row {
-		cursor: pointer;
-		word-wrap: break-word;
-		font-size: 18px;
+p {
+	margin-top: 10px;
+}
+.row.header {
+	font-weight: bolder;
+	font-size: 24px;
+}
+.row.odd {
+	background-color: rgba(238, 238, 238, 0.37);
+}
+.row {
+	cursor: pointer;
+	word-wrap: break-word;
+	font-size: 18px;
 
-	}
-	.row:hover {
-		background-color: #eee;	
-	}
+}
+.row:hover {
+	background-color: #eee;
+}
 </style>
 
 <div data-ng-app="editWordApp" data-ng-controller="editWordCtrl">
+	<nav class="navbar navbar-inverse" style="margin-bottom: 0px" role="navigation">
+
+		<a class="navbar-brand" ng-click="go('/')">Home</a>
+		<a class="navbar-brand" ng-click="go('/newword')">Add Word</a>
+		<a class="navbar-brand" ng-click="go('/editword')">Edit Word</a>
+
+	</nav>
 	<div class="jumbotron">
 		<div class="container">
 			<h1>Edit word</h1>
 		</div>
 	</div>
 
-				<!-- 
+				<!--
 				<i class="glyphicon glyphicon-remove-sign"></i>
 			-->
-	<div class="container rows">
-		<div data-ng-show="!selectedWord">
-			<div class="row header">
-				<div class="col-md-4">English</div>
-				<div class="col-md-4">Sweidsh</div>
-				<div class="col-md-4">German</div>
+			<div class="container rows">
+				<div data-ng-show="!selectedWord">
+					<div class="row header">
+						<div class="col-md-4">English</div>
+						<div class="col-md-4">Swedish</div>
+						<div class="col-md-4">German</div>
+					</div>
+					<div class="row"
+					data-ng-repeat="word in words"
+					data-ng-class="{ odd : $index % 2 == 0}"
+					data-ng-click="$parent.selectedWord = word">
+					<div class="col-md-4">
+						{{word.word}}
+					</div>
+					<div class="col-md-4">
+						{{word.translations.sv}}
+					</div>
+					<div class="col-md-4">
+						{{word.translations.de}}
+					</div>
+				</div>
 			</div>
-			<div class="row" 
-				data-ng-repeat="word in words" 
-				data-ng-class="{ odd : $index % 2 == 0}"
-				data-ng-click="$parent.selectedWord = word">
+
+			<div data-ng-show="selectedWord">
 				<div class="col-md-4">
-					{{word.word}}
+					<h2>Create a new word</h2>
+					<p>Enter a new word in english.</p>
+					<input data-ng-model="selectedWord.word" class="form-control" type="text" />
+					<p>Optionally add a description for the word.</p>
+					<textarea style="resize:vertical;" class="form-control" type="text"></textarea>
 				</div>
 				<div class="col-md-4">
-					{{word.translations.sv}}
+					<h2>Translations</h2>
+					<p>Swedish translation.</p>
+					<input data-ng-model="selectedWord.translations.sv" class="form-control" type="text" />
+					<p>German translation.</p>
+					<input data-ng-model="selectedWord.translations.de" class="form-control" type="text" />
 				</div>
 				<div class="col-md-4">
-					{{word.translations.de}}
+					<h2>Done?</h2>
+					<p>Create the word with the given translations</p>
+					<div class="btn btn-primary" data-ng-click="selectedWord = undefined">Go back</div>
+
+					<p>Update the word with the given translations</p>
+					<div class="btn btn-success" data-ng-click="updateWord(selectedWord)">Update word</div>
+
+					<p>Delete the word with the given translations</p>
+					<div class="btn btn-danger" data-ng-click="removeWord(selectedWord)">Delete word</div>
 				</div>
+
 			</div>
+
 		</div>
-
-		<div data-ng-show="selectedWord">
-			<div class="col-md-4">
-				<h2>Create a new word</h2>
-				<p>Enter a new word in english.</p>
-				<input data-ng-model="selectedWord.word" class="form-control" type="text" />
-				<p>Optionally add a description for the word.</p>
-				<textarea style="resize:vertical;" class="form-control" type="text"></textarea>
-			</div>
-			<div class="col-md-4">
-				<h2>Translations</h2>
-				<p>Swedish translation.</p>
-				<input data-ng-model="selectedWord.translations.sv" class="form-control" type="text" />
-				<p>German translation.</p>
-				<input data-ng-model="selectedWord.translations.de" class="form-control" type="text" />
-			</div>
-			<div class="col-md-4">
-				<h2>Done?</h2>
-				<p>Create the word with the given translatios.</p>
-				<div class="btn btn-primary" data-ng-click="selectedWord = undefined">Go back</div>
-
-				<p>Create the word with the given translatios.</p>
-				<div class="btn btn-success" data-ng-click="updateWord(selectedWord)">Upate word</div>
-
-				<p>Create the word with the given translatios.</p>
-				<div class="btn btn-danger" data-ng-click="removeWord(selectedWord)">Delete word</div>
-			</div>
-			
-		</div>
-
 	</div>
-</div>

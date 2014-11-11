@@ -5,45 +5,77 @@
 <script src="/bower_components/angular/angular.js"></script>
 
 <script>
-	angular.module("createWordApp", [])
-		.controller("createWordCtrl", function($scope, $http){
-			$scope.word = {
-				word : undefined,
-				translations : {
-					sv : undefined,
-					de : undefined
+angular.module("createWordApp", [])
+.controller("createWordCtrl", function($scope, $http){
+	$scope.word = {
+		word : undefined,
+		translations : {
+			sv : undefined,
+			de : undefined
+		}
+	}
+
+	$scope.validWord = function () {
+		return  $scope.word.word && 
+		$scope.word.translations.sv &&
+		$scope.word.translations.de;
+	}
+
+	$scope.createWord = function(){
+		$http.put("/word/new", $scope.word)
+		.success(function(data){
+			console.log("Success", data);
+		})
+		.error(function(data){
+			console.log("Error", data);
+		})
+	}
+
+			// TESTING, den här funktionen ska inte vara här
+			$scope.validateWord = function(){
+				var body = {
+					_id : "545e9b550e167e4419acba96",
+					lang : "sv",
+					guess : "mutti-sagge"
 				}
+				console.log("valideWord anropades");
+				$http.post("/word/validate", body)
+				.success(function(data){
+					console.log(data);
+
+				});
 			}
 
-			$scope.validWord = function () {
-				return  $scope.word.word && 
-					$scope.word.translations.sv &&
-					$scope.word.translations.de;
+			$scope.go = function(path){
+				console.log("BALLE");
+				window.location=path;
 			}
 
-			$scope.createWord = function(){
-				$http.put("/word/new", $scope.word)
-					.success(function(data){
-						console.log("Success", data);
-					})
-					.error(function(data){
-						console.log("Error", data);
-					})
-			}
 		})
 
 </script>
 
 <style>
-	p {
-		margin-top: 10px;
-	}
+p {
+	margin-top: 10px;
+}
 </style>
 
 <div data-ng-app="createWordApp" data-ng-controller="createWordCtrl">
+	<nav class="navbar navbar-inverse" style="margin-bottom: 0px" role="navigation">
+
+		<a class="navbar-brand" ng-click="go('/')">Home</a>
+		<a class="navbar-brand" ng-click="go('/newword')">Add Word</a>
+		<a class="navbar-brand" ng-click="go('/editword')">Edit Word</a>
+
+	</nav>
 	<div class="jumbotron">
 		<div class="container">
 			<h1>New word</h1>
+			<div class="btn btn-primary" data-ng-click="validateWord()">
+				This button triggers HTTP-anrop
+
+			</div>
 		</div>
 	</div>
 
