@@ -2,45 +2,46 @@
 <script src="/bower_components/jquery/dist/jquery.js"></script>
 <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
+<link rel="stylesheet" type="text/css" href="/node_modules/animate/animate.css">
 <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="/bower_components/angular/angular.js"></script>
 
 
 <script>
-console.log(jQuery);
+	console.log(jQuery);
 
-var url = "http://api.wordnik.com:80/v4/words.json/randomWord?hasDictionaryDef=false&minCorpusCount=0&maxCorpusCount=-1&minDictionaryCount=1&maxDictionaryCount=-1&minLength=5&maxLength=-1&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5";
+	var url = "http://127.0.0.1:3000/word/random";
 
-jQuery.get(url, function (data){
-	var word = data.word;
-	jQuery("#wordtotransalte").text(word);
-
-	var url = "https://www.googleapis.com/language/translate/v2?key=INSERT-YOUR-KEY&source=en&target=sv&q=" + word;
 	jQuery.get(url, function (data){
-		jQuery("#translatedword").text(data.word);
+		var word = data.word;
+		jQuery("#wordtotranslate").text(word);
 
-	});
-});
-
-angular.module("homePage", [])
-.controller("homePageCtrl", function($scope, $http){
-
-	$scope.redirectNewWord = function(){
-		res.render("newword")
-		console.log("redirectNewWord anropades");
-		$http.get("/newword", body)
-		.success(function(data){
-			console.log(data);
+		var url = "https://www.googleapis.com/language/translate/v2?key=INSERT-YOUR-KEY&source=en&target=sv&q=" + word;
+		jQuery.get(url, function (data){
+			jQuery("#translatedword").text(data.word);
 
 		});
-	}
+	});
 
-	$scope.go = function(path){
-		console.log("BALLE");
-		window.location=path;
-	}
+	angular.module("homePage", [])
+	.controller("homePageCtrl", function($scope, $http){
 
-});
+		$scope.redirectNewWord = function(){
+			res.render("newword")
+			console.log("redirectNewWord anropades");
+			$http.get("/newword", body)
+			.success(function(data){
+				console.log(data);
+
+			});
+		}
+
+		$scope.go = function(path){
+			console.log("BALLE");
+			window.location=path;
+		}
+
+	});
 
 
 
@@ -52,12 +53,12 @@ angular.module("homePage", [])
 
 <style>
 
-div.autoW{
-	solid: #000;
-	width: auto;
-	height: 75px;
-	background-color: #99C2FF;
-}
+	div.autoW{
+		solid: #000;
+		width: auto;
+		height: 75px;
+		background-color: #99C2FF;
+	}
 
 </style>
 
@@ -72,18 +73,21 @@ div.autoW{
 			<a class="navbar-brand" ng-click="go('/editword')">Edit Word</a>
 
 		</nav>
-		<div class="jumbotron" style="background-color: #99C2FF">
+		<div class="jumbotron" style="background-color: #99C2FF; ">
 			<div class="container">
 				<h1 style="margin-top: 0px"><big style="color: #FFFFFF">SvivvelBabel</big> 
 					<small>Language Translation Game</small>
 				</h1>
 			</div>
 		</div>
+		<div >
+			<h2 class="animated bounce" id="wordtotranslate"> </h2>
+		</div>
 
 
 
 
 
-</body>
+	</body>
 
-</html>
+	</html>
