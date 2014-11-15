@@ -13,6 +13,7 @@ var app = express();
 
 // view engine setup
 // ---------------------------------------------------
+app.use('/node_modules', express.static(__dirname + '/node_modules'));
 app.use('/bower_components',  express.static(__dirname + '/bower_components'));
 app.set('views', path.join(__dirname, 'views'));
 app.engine('html', require('ejs').renderFile);
@@ -30,6 +31,7 @@ fs.readdirSync(__dirname + "/Models").forEach(function(fileName){
 })
 
 app.use('/bower_components',  express.static(__dirname + '/bower_components'));
+app.use('/node_modules',  express.static(__dirname + '/node_modules'));
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));

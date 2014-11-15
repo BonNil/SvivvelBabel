@@ -2,7 +2,7 @@
 <script src="/bower_components/jquery/dist/jquery.js"></script>
 <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
-<link rel="stylesheet" type="text/css" href="/node_modules/animate/animate.css">
+<link rel="stylesheet" type="text/css" href="/node_modules/animate.css/animate.css">
 <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="/bower_components/angular/angular.js"></script>
 
@@ -10,17 +10,17 @@
 <script>
 	console.log(jQuery);
 
-	var url = "http://127.0.0.1:3000/word/random";
+	var url = "./word/random";
 
 	jQuery.get(url, function (data){
 		var word = data.word;
 		jQuery("#wordtotranslate").text(word);
 
-		var url = "https://www.googleapis.com/language/translate/v2?key=INSERT-YOUR-KEY&source=en&target=sv&q=" + word;
-		jQuery.get(url, function (data){
-			jQuery("#translatedword").text(data.word);
-
-		});
+		var sweTrans = data.translations.sv;
+		//document.getElementById("translatedword").value = sweTrans;
+		
+		jQuery("#translatedword").text(sweTrans);
+		
 	});
 
 	angular.module("homePage", [])
@@ -80,11 +80,12 @@
 				</h1>
 			</div>
 		</div>
-		<div >
-			<h2 class="animated bounce" id="wordtotranslate"> </h2>
+		<div style="">
+			<div id="wordtotranslate" style="display: inline; margin-left: 100px; margin-top: 100px; font-size: xx-large; font-style:bold" class="animated rubberBand">
+			</div>
+			<div id="translatedword" style="display: inline; margin-left: 500px; margin-top: 0px; font-size: xx-large; font-style:bold" class="animated rubberBand">
+			</div>
 		</div>
-
-
 
 
 
