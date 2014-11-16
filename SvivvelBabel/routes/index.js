@@ -113,6 +113,7 @@ router.post("/word/validate", function(req, res){
 		console.log("Invalid guess");
 	}
 		Words.findOne({"_id" : req.body._id}, function(err, word){
+			res.send("HIT KOM JAG");
 			if(word){
 				if(req.body.lang == "sv"){
 					if (req.body.guess == word.translations.sv){

@@ -12,34 +12,45 @@
 
 	var url = "./word/random";
 
+	var currentWordId;
+
 	jQuery.get(url, function (data){
 		var word = data.word;
+		currentWordId = data._id;
 		jQuery("#wordtotranslate").text(word);
-
-		var sweTrans = data.translations.sv;
-		//document.getElementById("translatedword").value = sweTrans;
-		
-		jQuery("#translatedword").text(sweTrans);
 		
 	});
 
 	$(function() {
-    while( $('#fitin div').height() > $('#fitin').height() ) {
-        $('#fitin div').css('font-size', (parseInt($('#fitin div').css('font-size')) - 1) + "px" );
-    }
+		while( $('#fitin div').height() > $('#fitin').height() ) {
+			$('#fitin div').css('font-size', (parseInt($('#fitin div').css('font-size')) - 1) + "px" );
+		}
 	});
 
 	angular.module("homePage", [])
 	.controller("homePageCtrl", function($scope, $http){
 
-		$scope.redirectNewWord = function(){
-			res.render("newword")
-			console.log("redirectNewWord anropades");
-			$http.get("/newword", body)
+
+
+
+		// TESTING
+		$scope.validateWord = function(){
+
+			var guess = {
+				_id : currentWordId,
+				lang : "sv",
+				guess : document.getElementById("guessInput").value
+			}
+
+			console.log("valideWord anropades");
+			$http.post("/word/validate", guess)
 			.success(function(data){
 				console.log(data);
 
-			});
+			})
+			.error(function(data){
+				console.log("Error", data);
+			})
 		}
 
 		$scope.go = function(path){
@@ -59,13 +70,13 @@
 
 <style>
 
-#fitin {
-    width: 300px;
-    height: 100px;
-    border: 1px solid black;
-    overflow: hidden;
-    font-size: 1em;
-}
+	#fitin {
+		width: 300px;
+		height: 100px;
+		border: 1px solid black;
+		overflow: hidden;
+		font-size: 1em;
+	}
 
 
 	div.outer-top{
@@ -125,6 +136,14 @@
 				</div>
 			</div>
 		</div>
+		<div  align ="center" >
+			<div class="outer-top">
+				<input id="guessInput" class="form-control" placeholder="Translate the Word!" type="text" />
+			</div>
+			<div data-ng-disabled="" data-ng-click="validateWord()" class="btn btn-primary btn-lg" style="margin-top: 10px">Submit
+			</div>
+		</div>
+
 
 
 
