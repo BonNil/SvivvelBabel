@@ -1,121 +1,26 @@
 0 info it worked if it ends with ok
-1 verbose cli [ 'node', '/usr/local/bin/npm', 'install' ]
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'start' ]
 2 info using npm@1.4.28
 3 info using node@v0.10.33
-4 verbose readDependencies using package.json deps
-5 verbose install where, deps [ '/Users/bonnynilsson/git/SvivvelBabel/SvivvelBabel',
-5 verbose install   [ 'body-parser',
-5 verbose install     'cookie-parser',
-5 verbose install     'debug',
-5 verbose install     'express',
-5 verbose install     'jade',
-5 verbose install     'mongoose',
-5 verbose install     'morgan',
-5 verbose install     'serve-favicon' ] ]
-6 info preinstall SvivvelBabel@0.0.0
-7 warn package.json fs@0.0.2 fs is also the name of a node core module.
-8 warn package.json fs@0.0.2 No description
-9 warn package.json fs@0.0.2 No repository field.
-10 warn package.json fs@0.0.2 No README data
-11 verbose readDependencies using package.json deps
-12 verbose already installed skipping body-parser@~1.8.1 /Users/bonnynilsson/git/SvivvelBabel/SvivvelBabel
-13 verbose already installed skipping cookie-parser@~1.3.3 /Users/bonnynilsson/git/SvivvelBabel/SvivvelBabel
-14 verbose already installed skipping debug@~2.0.0 /Users/bonnynilsson/git/SvivvelBabel/SvivvelBabel
-15 verbose already installed skipping express@~4.9.0 /Users/bonnynilsson/git/SvivvelBabel/SvivvelBabel
-16 verbose already installed skipping jade@~1.6.0 /Users/bonnynilsson/git/SvivvelBabel/SvivvelBabel
-17 verbose already installed skipping mongoose@^3.8.18 /Users/bonnynilsson/git/SvivvelBabel/SvivvelBabel
-18 verbose already installed skipping morgan@~1.3.0 /Users/bonnynilsson/git/SvivvelBabel/SvivvelBabel
-19 verbose already installed skipping serve-favicon@~2.1.3 /Users/bonnynilsson/git/SvivvelBabel/SvivvelBabel
-20 silly resolved []
-21 info build /Users/bonnynilsson/git/SvivvelBabel/SvivvelBabel
-22 verbose linkStuff [ false, false, false, '/Users/bonnynilsson/git/SvivvelBabel' ]
-23 info linkStuff SvivvelBabel@0.0.0
-24 verbose linkBins SvivvelBabel@0.0.0
-25 verbose linkMans SvivvelBabel@0.0.0
-26 verbose rebuildBundles SvivvelBabel@0.0.0
-27 verbose rebuildBundles [ '.DS_Store',
-27 verbose rebuildBundles   '.bin',
-27 verbose rebuildBundles   'body-parser',
-27 verbose rebuildBundles   'bower',
-27 verbose rebuildBundles   'cookie-parser',
-27 verbose rebuildBundles   'debug',
-27 verbose rebuildBundles   'ejs',
-27 verbose rebuildBundles   'express',
-27 verbose rebuildBundles   'fs',
-27 verbose rebuildBundles   'jade',
-27 verbose rebuildBundles   'mongoose',
-27 verbose rebuildBundles   'morgan',
-27 verbose rebuildBundles   'serve-favicon' ]
-28 verbose rebuild bundle /Users/bonnynilsson/git/SvivvelBabel/SvivvelBabel/node_modules/bower
-29 info build /Users/bonnynilsson/git/SvivvelBabel/SvivvelBabel/node_modules/bower
-30 info preinstall bower@1.3.12
-31 verbose linkStuff [ false,
-31 verbose linkStuff   false,
-31 verbose linkStuff   false,
-31 verbose linkStuff   '/Users/bonnynilsson/git/SvivvelBabel/SvivvelBabel/node_modules' ]
-32 info linkStuff bower@1.3.12
-33 warn prefer global bower@1.3.12 should be installed with -g
-34 verbose linkBins bower@1.3.12
-35 verbose link bins [ { bower: 'bin/bower' },
-35 verbose link bins   '/Users/bonnynilsson/git/SvivvelBabel/SvivvelBabel/node_modules/.bin',
-35 verbose link bins   false ]
-36 verbose linkMans bower@1.3.12
-37 verbose rebuildBundles bower@1.3.12
-38 verbose rebuildBundles [ '.bin',
-38 verbose rebuildBundles   'abbrev',
-38 verbose rebuildBundles   'archy',
-38 verbose rebuildBundles   'bower-config',
-38 verbose rebuildBundles   'bower-endpoint-parser',
-38 verbose rebuildBundles   'bower-json',
-38 verbose rebuildBundles   'bower-logger',
-38 verbose rebuildBundles   'bower-registry-client',
-38 verbose rebuildBundles   'cardinal',
-38 verbose rebuildBundles   'chalk',
-38 verbose rebuildBundles   'chmodr',
-38 verbose rebuildBundles   'decompress-zip',
-38 verbose rebuildBundles   'fstream',
-38 verbose rebuildBundles   'fstream-ignore',
-38 verbose rebuildBundles   'glob',
-38 verbose rebuildBundles   'graceful-fs',
-38 verbose rebuildBundles   'handlebars',
-38 verbose rebuildBundles   'inquirer',
-38 verbose rebuildBundles   'insight',
-38 verbose rebuildBundles   'is-root',
-38 verbose rebuildBundles   'junk',
-38 verbose rebuildBundles   'lockfile',
-38 verbose rebuildBundles   'lru-cache',
-38 verbose rebuildBundles   'mkdirp',
-38 verbose rebuildBundles   'mout',
-38 verbose rebuildBundles   'nopt',
-38 verbose rebuildBundles   'opn',
-38 verbose rebuildBundles   'osenv',
-38 verbose rebuildBundles   'p-throttler',
-38 verbose rebuildBundles   'promptly',
-38 verbose rebuildBundles   'q',
-38 verbose rebuildBundles   'request',
-38 verbose rebuildBundles   'request-progress',
-38 verbose rebuildBundles   'retry',
-38 verbose rebuildBundles   'rimraf',
-38 verbose rebuildBundles   'semver',
-38 verbose rebuildBundles   'shell-quote',
-38 verbose rebuildBundles   'stringify-object',
-38 verbose rebuildBundles   'tar-fs',
-38 verbose rebuildBundles   'tmp',
-38 verbose rebuildBundles   'update-notifier',
-38 verbose rebuildBundles   'which' ]
-39 error Error: EACCES, unlink '/Users/bonnynilsson/git/SvivvelBabel/SvivvelBabel/node_modules/.bin/bower'
-39 error  { [Error: EACCES, unlink '/Users/bonnynilsson/git/SvivvelBabel/SvivvelBabel/node_modules/.bin/bower']
-39 error   errno: 3,
-39 error   code: 'EACCES',
-39 error   path: '/Users/bonnynilsson/git/SvivvelBabel/SvivvelBabel/node_modules/.bin/bower' }
-40 error Please try running this command again as root/Administrator.
-41 error System Darwin 14.0.0
-42 error command "node" "/usr/local/bin/npm" "install"
-43 error cwd /Users/bonnynilsson/git/SvivvelBabel/SvivvelBabel
-44 error node -v v0.10.33
-45 error npm -v 1.4.28
-46 error path /Users/bonnynilsson/git/SvivvelBabel/SvivvelBabel/node_modules/.bin/bower
-47 error code EACCES
-48 error errno 3
-49 error stack Error: EACCES, unlink '/Users/bonnynilsson/git/SvivvelBabel/SvivvelBabel/node_modules/.bin/bower'
-50 verbose exit [ 3, true ]
+4 verbose run-script [ 'prestart', 'start', 'poststart' ]
+5 info prestart SvivvelBabel@0.0.0
+6 info start SvivvelBabel@0.0.0
+7 verbose unsafe-perm in lifecycle true
+8 info SvivvelBabel@0.0.0 Failed to exec start script
+9 error SvivvelBabel@0.0.0 start: `node ./bin/www`
+9 error Exit status 8
+10 error Failed at the SvivvelBabel@0.0.0 start script.
+10 error This is most likely a problem with the SvivvelBabel package,
+10 error not with npm itself.
+10 error Tell the author that this fails on your system:
+10 error     node ./bin/www
+10 error You can get their info via:
+10 error     npm owner ls SvivvelBabel
+10 error There is likely additional logging output above.
+11 error System Darwin 14.0.0
+12 error command "node" "/usr/local/bin/npm" "start"
+13 error cwd /Users/bonnynilsson/git/SvivvelBabel/SvivvelBabel
+14 error node -v v0.10.33
+15 error npm -v 1.4.28
+16 error code ELIFECYCLE
+17 verbose exit [ 1, true ]

@@ -23,6 +23,12 @@
 		
 	});
 
+	$(function() {
+    while( $('#fitin div').height() > $('#fitin').height() ) {
+        $('#fitin div').css('font-size', (parseInt($('#fitin div').css('font-size')) - 1) + "px" );
+    }
+	});
+
 	angular.module("homePage", [])
 	.controller("homePageCtrl", function($scope, $http){
 
@@ -53,11 +59,42 @@
 
 <style>
 
-	div.autoW{
-		solid: #000;
-		width: auto;
-		height: 75px;
-		background-color: #99C2FF;
+#fitin {
+    width: 300px;
+    height: 100px;
+    border: 1px solid black;
+    overflow: hidden;
+    font-size: 1em;
+}
+
+
+	div.outer-top{
+
+		margin-top: 5%;
+		display: table;
+		padding:10px;
+		border-style: solid;
+		border-width: 3px;
+		border-color: #5C5C8A;
+		-webkit-border-radius: 45px;
+		-moz-border-radius: 45px;
+		border-radius: 10px;
+
+
+	}
+
+	div.inner{
+		display: inline;
+		display: table-row;
+		text-align: center;
+		vertical-align: center;
+		width:80%;
+		height:80%;
+	}
+
+	div.inner-inner{
+		font-size: 8em;
+		font-style: bold;
 	}
 
 </style>
@@ -73,17 +110,19 @@
 			<a class="navbar-brand" ng-click="go('/editword')">Edit Word</a>
 
 		</nav>
-		<div class="jumbotron" style="background-color: #99C2FF; ">
+		<div class="jumbotron" style="background-color: #99C2FF;" >
 			<div class="container">
-				<h1 style="margin-top: 0px"><big style="color: #FFFFFF">SvivvelBabel</big> 
+				<h1 style="margin-top: -10px"><big style="color: #FFFFFF">SvivvelBabel</big> 
 					<small>Language Translation Game</small>
 				</h1>
 			</div>
 		</div>
-		<div style="">
-			<div id="wordtotranslate" style="display: inline; margin-left: 100px; margin-top: 100px; font-size: xx-large; font-style:bold" class="animated rubberBand">
-			</div>
-			<div id="translatedword" style="display: inline; margin-left: 500px; margin-top: 0px; font-size: xx-large; font-style:bold" class="animated rubberBand">
+		<div class="animated fadeIn"  align="center"  >
+			<div class="outer-top animated rubberBand" >
+				<div class="inner" id="fitin">
+					<div id="wordtotranslate" class="inner-inner">
+					</div>
+				</div>
 			</div>
 		</div>
 
