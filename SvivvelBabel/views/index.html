@@ -1,72 +1,85 @@
 <!DOCTYPE html>
-<script src="/bower_components/jquery/dist/jquery.js"></script>
-<link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
-<link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
-<link rel="stylesheet" type="text/css" href="/node_modules/animate.css/animate.css">
-<script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="/bower_components/angular/angular.js"></script>
+<html>
+<head>
+
+	<title>SvivvelBabel</title>
+	<script src="/bower_components/jquery/dist/jquery.js"></script>
+	<link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" type="text/css" href="/node_modules/animate.css/animate.css">
+	<script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="/bower_components/angular/angular.js"></script>
 
 
-<script>
-	console.log(jQuery);
 
-	var url = "./word/random";
+	<script>
+		console.log(jQuery);
 
-	var currentWordId;
+		// Jag vet knappt vad detta är. Anpassar boxen runt ordet till ordet.
+		$(function() {
+			while( $('#fitin div').height() > $('#fitin').height() ) {
+				$('#fitin div').css('font-size', (parseInt($('#fitin div').css('font-size')) - 1) + "px" );
+			}
+		});
 
-	jQuery.get(url, function (data){
-		var word = data.word;
-		currentWordId = data._id;
-		jQuery("#wordtotranslate").text(word);
+		angular.module("homePage", [])
+		.controller("homePageCtrl", function($scope, $http){
+
+			$scope.validateResponse = {};
+			$scope.score = 0;
+			$scope.currentGuess = "";
 		
-	});
+			$scope.getRandom = function() {
+				//$scope.validateResponse.rightAnswer = false;
+				$scope.validateResponse = {};
+				$scope.currentGuess = "";
+				$http.get('./word/random').success(function(data){
+					$scope.currentWord = data;
+				}).error(function(data){
+					console.log(data);
+				});
+			}
+			$scope.getRandom();
 
-	$(function() {
-		while( $('#fitin div').height() > $('#fitin').height() ) {
-			$('#fitin div').css('font-size', (parseInt($('#fitin div').css('font-size')) - 1) + "px" );
-		}
-	});
+			$scope.validateWord = function(){
 
-	angular.module("homePage", [])
-	.controller("homePageCtrl", function($scope, $http){
+				var guess = {
+					_id : $scope.currentWord._id,
+					lang : "sv",
+					guess : $scope.currentGuess
+				}
+				//if #guessInput is empty
+				if ($scope.currentGuess == ""){
+					guess.guess = "undefined01"
+				}
 
+				console.log("valideWord anropades");
+				$http.post("/word/validate", guess)
+				.success(function(data){
+					$scope.validateResponse = data;
+					if(data.rightAnswer == true){
+						$scope.score++;
 
+						setTimeout(function() {$scope.getRandom();}, 1500);
+						
 
+					}
+					console.log(data);
 
-		// TESTING
-		$scope.validateWord = function(){
-
-			var guess = {
-				_id : currentWordId,
-				lang : "sv",
-				guess : document.getElementById("guessInput").value
+				})
+				.error(function(data){
+					console.log("Error", data);
+				})
 			}
 
-			console.log("valideWord anropades");
-			$http.post("/word/validate", guess)
-			.success(function(data){
-				console.log(data);
-
-			})
-			.error(function(data){
-				console.log("Error", data);
-			})
-		}
-
-		$scope.go = function(path){
-			console.log("BALLE");
-			window.location=path;
-		}
+			$scope.go = function(path){
+				console.log("BALLE");
+				window.location=path;
+			}
 
 	});
 
-
-
-
-
 </script>
-
-<html>
 
 <style>
 
@@ -78,20 +91,22 @@
 		font-size: 1em;
 	}
 
+	div.static{
+		position: absolute;
+		top: 75%;
+		right: 41.5%;
+	}
 
 	div.outer-top{
-
 		margin-top: 5%;
 		display: table;
-		padding:10px;
+		padding: 10px;
 		border-style: solid;
 		border-width: 3px;
 		border-color: #5C5C8A;
 		-webkit-border-radius: 45px;
 		-moz-border-radius: 45px;
 		border-radius: 10px;
-
-
 	}
 
 	div.inner{
@@ -108,8 +123,23 @@
 		font-style: bold;
 	}
 
+	div.successBorder{
+		border-color: #00FF00;
+
+
+	}
+
+	div.failureBorder{
+		border-color: #FF0000;
+	}
+
+	input{
+		text-align: center;
+	}
+
 </style>
 
+</head>
 
 <body>
 	<div data-ng-app="homePage" data-ng-controller="homePageCtrl">
@@ -128,25 +158,30 @@
 				</h1>
 			</div>
 		</div>
-		<div class="animated fadeIn"  align="center"  >
-			<div class="outer-top animated rubberBand" >
+		<div class="animated fadeIn"  align="center" style="">
+			<div class="outer-top" ng-class="{'undefined': 'animated rubberBand', true: 'successBorder animated pulse', false: 'failureBorder animated shake'}[validateResponse.rightAnswer]">
 				<div class="inner" id="fitin">
-					<div id="wordtotranslate" class="inner-inner">
+					<div class="inner-inner">
+						{{ currentWord.word }}
 					</div>
 				</div>
 			</div>
+			<div style="margin-top: 20px" ng-show="validateResponse.rightAnswer"> SUCCESS! </div>
+			<div style="margin-top: 20px" ng-show="validateResponse.rightAnswer == false"> Guess again! </div>
 		</div>
-		<div  align ="center" >
-			<div class="outer-top">
-				<input id="guessInput" class="form-control" placeholder="Translate the Word!" type="text" />
-			</div>
-			<div data-ng-disabled="" data-ng-click="validateWord()" class="btn btn-primary btn-lg" style="margin-top: 10px">Submit
-			</div>
+		<div  class="static" align ="center" >
+			<form role="form">
+				<div class="outer-top">
+					<input id="guessInput" class="form-control" placeholder="Translate the Word!" type="text" ng-model="currentGuess" onkeydown="if (event.keyCode == 13) document.getElementById('guessButton').click()" autocomplete="off"/>
+				</div>
+				<div id="guessButton" data-ng-disabled="" data-ng-click="validateWord()" class="btn btn-primary btn-lg" style="margin-top: 10px">Submit
+				</div>
+				<div id="nextButton" data-ng-click="getRandom()" class="btn btn-primary btn-lg" style="margin-top: 10px">Next Word
+				</div>
+			</form>
 		</div>
+	</div>
 
+</body>
 
-
-
-	</body>
-
-	</html>
+</html>

@@ -104,25 +104,28 @@ router.post("/word/validate", function(req, res){
 		res.status(400).send("Invalid ID");
 		console.log("Invalid ID");
 	}
-	if(!req.body.lang){
+	else if(!req.body.lang){
 		res.status(400).send("Invalid language");
 		console.log("Invalid language");
 	}
-	if(!req.body.guess){
+	else if(!req.body.guess){
 		res.status(400).send("Invalid guess");
 		console.log("Invalid guess");
 	}
 		Words.findOne({"_id" : req.body._id}, function(err, word){
-			res.send("HIT KOM JAG");
 			if(word){
 				if(req.body.lang == "sv"){
-					if (req.body.guess == word.translations.sv){
-						res.send("CORRECT");
+					if (req.body.guess.toUpperCase() == word.translations.sv.toUpperCase()){
+						res.json({
+							rightAnswer : true
+						});
 					}else{
-						res.send("INCORRECT");
+						res.json({
+							rightAnswer : false
+						});
 					}
 				}
-				if(req.body.lang == "de"){
+				else if(req.body.lang == "de"){
 					if (req.body.guess == word.translations.de){
 						res.send("CORRECT");
 					}else{
